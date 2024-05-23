@@ -162,7 +162,10 @@ class CardScannerCameraActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK, returnIntent)
                 finish()
               }, onCardScanFailed = {
-                onBackPressed()
+                val returnIntent: Intent = Intent()
+                setResult(Activity.RESULT_CANCELED, returnIntent)
+                this.finish()
+                //onBackPressed() - caused crash using back button
               }))
             }
     cameraProvider!!.bindToLifecycle( /* lifecycleOwner= */this, cameraSelector!!, analysisUseCase)
