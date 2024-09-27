@@ -29,6 +29,8 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 28
 
+    namespace 'com.nateshmbhat.card_scanner'
+
     defaultConfig {
         minSdkVersion 21
     }
