@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "964659564976",
+    "project_id": "ridetech-ee65e",
+    "storage_bucket": "ridetech-ee65e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964659564976:android:a0a227ae88e480cfd34675",
+        "android_client_info": {
+          "package_name": "com.kiddycars.carhire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964659564976-0u6g89v1d4je9b5br4ue34vn5i0g1l1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiddycars.carhire",
+            "certificate_hash": "c5a7eb42d93a1a94164c68ae410496856b7e493a"
+          }
+        },
+        {
+          "client_id": "964659564976-nhgs19nqbvfe42leas4oefdallmpg8l3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrip3yVz9u8TfYkaUI18NVQjKEfM5TBw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964659564976-nhgs19nqbvfe42leas4oefdallmpg8l3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

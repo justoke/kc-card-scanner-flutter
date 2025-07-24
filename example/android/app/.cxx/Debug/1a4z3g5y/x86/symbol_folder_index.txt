@@ -1,0 +1,1 @@
+E:\dev\repos\kc-card-scanner-flutter\example\android\app\build\intermediates\cxx\Debug\1a4z3g5y\obj\x86

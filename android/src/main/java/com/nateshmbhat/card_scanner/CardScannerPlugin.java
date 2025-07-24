@@ -20,22 +20,13 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
 
-/**
- * CardScannerPlugin
- */
 public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
     private static final int SCAN_REQUEST_CODE = 49193;
     private Activity activity;
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
     public static MethodChannel channel;
-
     public final static String METHOD_CHANNEL_NAME = "nateshmbhat/card_scanner";
     private Context context;
     private Result pendingResult;
-
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -49,16 +40,6 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
         channel.setMethodCallHandler(null);
         context = null;
     }
-
-    // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-    // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-    // plugin registration via this function while apps migrate to use the new Android APIs
-    // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-    //
-    // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-    // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-    // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-    // in the same class.
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
@@ -79,6 +60,13 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
     }
 
     void showCameraActivity(MethodCall call) {
+        // Check if arguments is a Map<String, String>
+        if (!(call.arguments instanceof Map)) {
+            pendingResult.error("INVALID_ARGUMENTS", "Expected Map<String, String> arguments", null);
+            pendingResult = null;
+            return;
+        }
+        @SuppressWarnings("unchecked")
         Map<String, String> map = (Map<String, String>) call.arguments;
         CardScannerOptions cardScannerOptions = new CardScannerOptions(map);
         Intent intent = new Intent(context, CardScannerCameraActivity.class);
@@ -91,8 +79,9 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
         if (requestCode == SCAN_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null && data.hasExtra(CardScannerCameraActivity.SCAN_RESULT)) {
-                    CardDetails cardDetails = data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT);
-                    pendingResult.success(cardDetails.toMap());
+                    // Use the non-deprecated getParcelableExtra with class type
+                    CardDetails cardDetails = data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT, CardDetails.class);
+                    pendingResult.success(cardDetails != null ? cardDetails.toMap() : null);
                 } else {
                     pendingResult.success(null);
                 }
@@ -102,7 +91,8 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
                 pendingResult = null;
             }
             return true;
-        } else return false;
+        }
+        return false;
     }
 
     @Override
@@ -113,7 +103,6 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
-
     }
 
     @Override
@@ -124,6 +113,3 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
     public void onDetachedFromActivity() {
     }
 }
-
-
-
