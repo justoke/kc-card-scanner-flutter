@@ -12,8 +12,13 @@
         <activity
             android:name=".CardScannerCameraActivity"
             android:screenOrientation="portrait"
+            android:exported="true"  
             android:theme="@style/Theme.AppCompat">
         </activity>
+        <!-- V2 Embedding -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
     </application>
 
 </manifest>

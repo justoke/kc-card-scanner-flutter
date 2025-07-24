@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  CardDetails _cardDetails;
+  late CardDetails _cardDetails;
   CardScanOptions scanOptions = CardScanOptions(
     scanCardHolderName: true,
     // enableDebugLogs: true,
@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
     var cardDetails = await CardScanner.scanCard(scanOptions: scanOptions);
     if (!mounted) return;
     setState(() {
-      _cardDetails = cardDetails;
+      _cardDetails = cardDetails!;
     });
   }
 
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () async {
                   scanCard();
                 },
@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
                 child: OptionConfigureWidget(
                   initialOptions: scanOptions,
                   onScanOptionChanged: (newOptions) => scanOptions = newOptions,
+                  key: UniqueKey(),
                 ),
               )
             ],
