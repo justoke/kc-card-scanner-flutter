@@ -6,5 +6,6 @@ pubspec.lock
 .idea/*
 .pub/
 example/android/app/release/
+example/android/app/.cxx/
 
 build/
