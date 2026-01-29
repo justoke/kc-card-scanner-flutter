@@ -1,5 +1,5 @@
 package com.nateshmbhat.card_scanner;
-
+import android.os.Build;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -74,13 +74,39 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
         activity.startActivityForResult(intent, SCAN_REQUEST_CODE);
     }
 
-    @Override
+    /*@Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SCAN_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null && data.hasExtra(CardScannerCameraActivity.SCAN_RESULT)) {
                     // Use the non-deprecated getParcelableExtra with class type
                     CardDetails cardDetails = data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT, CardDetails.class);
+                    pendingResult.success(cardDetails != null ? cardDetails.toMap() : null);
+                } else {
+                    pendingResult.success(null);
+                }
+                pendingResult = null;
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                pendingResult.success(null);
+                pendingResult = null;
+            }
+            return true;
+        }
+        return false;
+    }*/
+
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SCAN_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null && data.hasExtra(CardScannerCameraActivity.SCAN_RESULT)) {
+                    CardDetails cardDetails;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        cardDetails = data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT, CardDetails.class);
+                    } else {
+                        @SuppressWarnings("deprecation")
+                        cardDetails = (CardDetails) data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT);
+                    }
                     pendingResult.success(cardDetails != null ? cardDetails.toMap() : null);
                 } else {
                     pendingResult.success(null);
