@@ -1,5 +1,6 @@
 package com.nateshmbhat.card_scanner;
 import android.os.Build;
+import android.os.Parcelable;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -100,13 +101,18 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
         if (requestCode == SCAN_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null && data.hasExtra(CardScannerCameraActivity.SCAN_RESULT)) {
-                    CardDetails cardDetails;
+                    CardDetails cardDetails = null;
+                
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         cardDetails = data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT, CardDetails.class);
                     } else {
                         @SuppressWarnings("deprecation")
-                        cardDetails = (CardDetails) data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT);
+                        Parcelable extra = data.getParcelableExtra(CardScannerCameraActivity.SCAN_RESULT);
+                        if (extra instanceof CardDetails) {
+                            cardDetails = (CardDetails) extra;
+                        }
                     }
+                
                     pendingResult.success(cardDetails != null ? cardDetails.toMap() : null);
                 } else {
                     pendingResult.success(null);
