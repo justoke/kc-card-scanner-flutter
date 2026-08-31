@@ -99,6 +99,9 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SCAN_REQUEST_CODE) {
+            if (pendingResult == null) {
+                return false;
+            }
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null && data.hasExtra(CardScannerCameraActivity.SCAN_RESULT)) {
                     CardDetails cardDetails = null;
@@ -143,5 +146,9 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
 
     @Override
     public void onDetachedFromActivity() {
+        if (pendingResult != null) {
+            pendingResult.success(null);
+            pendingResult = null;
+        }
     }
 }
