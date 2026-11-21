@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2
+* Android compileSdk/targetSdk 36, minSdk 24
+* Gradle 9.5.0, Android Gradle Plugin 9.3.1, Kotlin 2.4.20, Java 17
+* Migrated Android builds to Kotlin DSL and the Flutter Gradle Plugin
+
 #### 1.0.1-prerelease
 - ios bug fix
 

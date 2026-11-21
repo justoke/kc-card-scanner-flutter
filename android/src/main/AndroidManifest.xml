@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nateshmbhat.card_scanner">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -12,10 +11,9 @@
         <activity
             android:name=".CardScannerCameraActivity"
             android:screenOrientation="portrait"
-            android:exported="true"  
+            android:exported="true"
             android:theme="@style/Theme.AppCompat">
         </activity>
-        <!-- V2 Embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
