@@ -6,6 +6,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -48,7 +49,17 @@ class CardScannerCameraActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.card_scanner_camera_activity)
-    cardScannerOptions = intent.getParcelableExtra<CardScannerOptions>(CARD_SCAN_OPTIONS)
+    cardScannerOptions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      intent.getParcelableExtra(CARD_SCAN_OPTIONS, CardScannerOptions::class.java)
+    } else {
+      @Suppress("DEPRECATION")
+      intent.getParcelableExtra(CARD_SCAN_OPTIONS)
+    }
+    if (cardScannerOptions == null) {
+      setResult(Activity.RESULT_CANCELED)
+      finish()
+      return
+    }
 
     scannerLayout = findViewById(R.id.scannerLayout)
     scannerBar = findViewById(R.id.scannerBar)

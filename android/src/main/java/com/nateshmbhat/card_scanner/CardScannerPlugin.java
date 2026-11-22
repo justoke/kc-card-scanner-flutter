@@ -70,7 +70,7 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
         @SuppressWarnings("unchecked")
         Map<String, String> map = (Map<String, String>) call.arguments;
         CardScannerOptions cardScannerOptions = new CardScannerOptions(map);
-        Intent intent = new Intent(context, CardScannerCameraActivity.class);
+        Intent intent = new Intent(activity, CardScannerCameraActivity.class);
         intent.putExtra(CardScannerCameraActivity.CARD_SCAN_OPTIONS, cardScannerOptions);
         activity.startActivityForResult(intent, SCAN_REQUEST_CODE);
     }
